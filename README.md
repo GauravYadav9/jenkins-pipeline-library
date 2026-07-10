@@ -19,7 +19,7 @@ All functions are designed to be idempotent and deterministic to avoid dependenc
 Reference this library in your `Jenkinsfile`:
 
 ```groovy
-@Library('jenkins-pipeline-library@v1.3.2') _
+@Library('jenkins-pipeline-library@v1.4.0') _
 
 def branchConfig = getBranchConfig()
 
@@ -39,6 +39,12 @@ The library is registered in Jenkins via [JCasC](https://github.com/GauravYadav9
 |---|---|
 | [`startDockerGrid`](vars/startDockerGrid.groovy) | Provisions Selenium Grid via Docker Compose. Executes a deterministic **teardown → create → connect** sequence to prevent stale network state. Includes health polling with configurable timeout and interval. |
 | [`stopDockerGrid`](vars/stopDockerGrid.groovy) | Graceful grid shutdown using sanitized project names. Non-blocking — logs a warning if grid is already stopped. |
+
+### Build Management
+
+| Function | Description |
+|---|---|
+| [`buildAgentImage`](vars/buildAgentImage.groovy) | Conditional Docker agent image rebuild. Detects changes in dependency/Dockerfile trigger files (`pom.xml`, `Dockerfile`, `settings.xml`) via SCM changeSets. Self-healing — auto-rebuilds if image is missing from host. Skips rebuild when nothing changed to avoid unnecessary build time. |
 
 ### Pipeline Configuration
 
@@ -78,13 +84,16 @@ The library is registered in Jenkins via [JCasC](https://github.com/GauravYadav9
 
 ```
 Jenkinsfile
-    └── @Library('jenkins-pipeline-library@v1.3.2')
-         │
-         ├── Setup Phase
-         │    ├── getBranchConfig()
-         │    ├── determineTestSuite()
-         │    ├── printBuildMetadata()
-         │    └── startDockerGrid()
+     └── @Library('jenkins-pipeline-library@v1.4.0')
+          │
+          ├── Build Phase
+          │    └── buildAgentImage()          ← Conditional rebuild
+          │
+          ├── Setup Phase
+          │    ├── getBranchConfig()
+          │    ├── determineTestSuite()
+          │    ├── printBuildMetadata()
+          │    └── startDockerGrid()
          │
          ├── Test Execution (Maven/TestNG)
          │
@@ -118,6 +127,6 @@ Jenkinsfile
 This library uses Git tags for version pinning:
 
 ```groovy
-@Library('jenkins-pipeline-library@v1.3.2') _   // Pinned — safe for production
+@Library('jenkins-pipeline-library@v1.4.0') _   // Pinned — safe for production
 @Library('jenkins-pipeline-library@main') _      // Latest — for testing
 ```
