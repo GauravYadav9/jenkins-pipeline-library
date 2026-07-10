@@ -84,16 +84,16 @@ The library is registered in Jenkins via [JCasC](https://github.com/GauravYadav9
 
 ```
 Jenkinsfile
-     └── @Library('jenkins-pipeline-library@v1.4.0')
-          │
-          ├── Build Phase
-          │    └── buildAgentImage()          ← Conditional rebuild
-          │
-          ├── Setup Phase
-          │    ├── getBranchConfig()
-          │    ├── determineTestSuite()
-          │    ├── printBuildMetadata()
-          │    └── startDockerGrid()
+    └── @Library('jenkins-pipeline-library@v1.4.0')
+         │
+         ├── Build Phase
+         │    └── buildAgentImage()          ← Conditional rebuild
+         │
+         ├── Setup Phase
+         │    ├── getBranchConfig()
+         │    ├── determineTestSuite()
+         │    ├── printBuildMetadata()
+         │    └── startDockerGrid()
          │
          ├── Test Execution (Maven/TestNG)
          │
