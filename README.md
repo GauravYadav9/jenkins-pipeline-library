@@ -1,6 +1,6 @@
 # Jenkins Pipeline Library
 
-Reusable Jenkins shared library for CI/CD pipeline orchestration. Built for Selenium test automation pipelines running on Docker-based Selenium Grid infrastructure.
+Reusable Jenkins Pipeline Shared Library for CI/CD pipeline orchestration. Built for Selenium-based test automation pipelines executing on Dockerized Selenium Grid infrastructure.
 
 ## Overview
 
@@ -12,7 +12,7 @@ This library provides pipeline building blocks for:
 - **Test Management** — Qase.io integration for test run tracking
 - **AI Analysis** — Optional, advisory-only failure analysis using LLM providers
 
-All functions are designed to be idempotent and deterministic to avoid dependency on Docker runtime state.
+Pipeline functions are designed to be idempotent and deterministic, minimizing dependency on existing Docker runtime state.
 
 ## Usage
 
@@ -78,7 +78,7 @@ The library is registered in Jenkins via [JCasC](https://github.com/GauravYadav9
 
 | Function | Description |
 |---|---|
-| [`analyzeFailuresWithAi`](vars/analyzeFailuresWithAi.groovy) | AI-powered failure root cause analysis. Runs **after** the quality gate, **never blocks** the build. Generates a Markdown analysis report archived as a build artifact. Gracefully skips if no failures exist or LLM provider is unavailable. Branch-gated — only runs on configured branches. |
+| [`analyzeFailuresWithAi`](vars/analyzeFailuresWithAi.groovy) | AI-powered failure root cause analysis. Runs **after** the quality gate, **never blocks** the build. Generates a Markdown analysis report archived as a build artifact. Gracefully skips when no failures exist, AI analysis is disabled for the branch, or the configured LLM provider is unavailable. Execution is restricted to configured branches. |
 
 ## Architecture
 
@@ -130,3 +130,5 @@ This library uses Git tags for version pinning:
 @Library('jenkins-pipeline-library@v1.4.0') _   // Pinned — safe for production
 @Library('jenkins-pipeline-library@main') _      // Latest — for testing
 ```
+
+Production pipelines should reference versioned tags. The main branch is intended for validating new shared library changes before creating a release tag.
